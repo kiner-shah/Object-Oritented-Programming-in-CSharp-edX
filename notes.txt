@@ -1,0 +1,270 @@
+- C# language was built from the ground up as an object oriented programming language.
+- Classes enable you to create your own custom, self-contained, and reusable types. Interfaces enable you to define a set of inputs and outputs that classes must implement in order to ensure compatibility with consumers of the classes.
+- The class defines the behaviors and characteristics, or class members, which are shared by all instances of the class. You represent these behaviors and characteristics by defining methods, fields, properties, and events within your class.
+- The class keyword is preceded by an access modifier, such as public.
+
+Example:
+
+// Defining Class Members
+public class DrinksMachine
+{
+	// The following statements define a property with a private field.
+   	private string _location;
+	public string Location
+	{
+		get
+		{
+		 return _location;
+		}
+		set
+		{
+		 if (value != null)
+		    _location = value;
+		}
+	}
+	// The following statements define properties.
+	public string Make {get; set;}
+	public string Model {get; set;}
+	// The following statements define methods.
+	public void MakeCappuccino()
+	{
+	  // Method logic goes here.
+	}
+	public void MakeEspresso()
+	{
+	  // Method logic goes here.
+	}
+	// The following statement defines an event. The delegate definition is not shown.
+	public event OutOfBeansHandler OutOfBeans;
+}
+
+- C# can also implement partial classes. Partial classes allow you to split the definition of the class across multiple source files. Then you compile your application, all of the parts are combined into a single file.
+- Partial classes are useful when:
+	- When working on large projects, spreading a class over separate files enables multiple programmers to work on the same class at the same time.
+	- When working with automatically generated source. Visual Studio uses this approach when your application uses Windows Forms, Web service wrapper code, etc. Microsoft recommends that you do not modify the auto-generated code for these components as it could be overwritten when the application is compiled or the project files changed.Instead, you can create another portion of the class, as a partial class with the same name, and make your additions and edits there.
+- Note: you can also split structs and interfaces across multiple source files as well.
+
+Example:
+public partial class DrinksMachine
+{
+	public void MakeCappuccino()
+	{
+	  // Method logic goes here.
+	}
+}
+
+public partial class DrinksMachine
+{
+	public void MakeEspresso()
+	{
+	  // Method logic goes here.
+	}
+}
+
+- To use the behaviors and characteristics that you define within a class, you need to create instances of the class. An instance of a class is called an object. To create a new instance of a class, you use the new keyword.
+- When you create your object reference, instead of explicitly specifying the DrinksMachine type, you can allow the compiler to deduce the type of the object at compile time. This is known as type inference. To use type inference, you create your object reference by using the var keyword. As a general rule, consider using type inference when the type of variable is absolutely clear.
+
+Example:
+// Instantiating a Class by Using Type Inference
+var dm = new DrinksMachine();
+
+ - Encapsulation can be used to describe the accessibility of the members belonging to a class or struct. C# provides access modifiers and properties to help implement encapsulation in your classes.
+ - Access modifier	Description
+   public	        The type is available to code running in any assembly that references the assembly in which the class is contained.
+   internal	        The type is available to any code within the same assembly, but not available to code in another assembly.
+   private	        The type is only available to code within the class that contains it. You can only use the private access modifier with nested classes. This is the 					 default value if you do not specify an access modifier.
+   protected	    The type is only accessible within its class and by derived class instances.
+- The tradition is to create private data fields in the class to prevent direct manipulation of the values for those fields, and expose properties to provide access to the values indirectly. The properties are known as accessors or getters and setters.
+- Properties enable you to permit users, of the class, a means of getting and setting values for the private member data fields within your class. Properties provide access to the member data while hiding implementation or verification code that you may have written inside the property.
+- Setting your member variables to private is known as a form of data hiding.
+- Properties also present an "interface" to your class by exposing a way to get or set the members of the class that the user can trust.
+
+- You can create two basic types of properties in a C# class. Read only or read-write: (Technically you can also create a write-only property but that is not common).
+	- A get property accessor is used to return the property value
+	- A set accessor is used to assign a new value. (Omitting this property makes it read only)
+	- A value keyword is used to define the "value" being assigned by the set accessor.
+	- Properties that do not implement a set accessor are read only.
+	- For simple properties that require no custom accessor code, consider the option of using auto-implemented properties.
+- Auto-implemented properties make property-declaration more concise when creating simple accessor methods (getter and setter). They also enable client code to create objects. When you declare a properties this way, the compiler will automatically create a private, anonymous field in the background that can only be accessed through the get and set accessors.
+
+- A constructor is a method in the class that has the same name as the class. Constructors do not use a return value however, not even void, and they must have the same name as the class file. Constructors are often used to specify initial or default values for data members within the new object.
+- A constructor that takes no parameters is known as the default constructor. This constructor is called whenever someone instantiates your class without providing any arguments. If you do not include a constructor in your class, the Visual C# compiler will automatically add an empty public default constructor to your compiled class.
+- In many cases, it is useful for consumers of your class to be able to specify initial values for data members when the class is instantiated.
+- Your class can include multiple constructors with different signatures that enable consumers to provide different combinations of information when they instantiate your class.
+
+- In some cases, you may want to create a class purely to encapsulate some useful functionality, rather than to represent an instance of anything.
+- In scenarios like this, you can create a static class. A static class is a class that cannot be instantiated. To create a static class, you use the static keyword. Any members within the class must also use the static keyword. To call a method on a static class, you call the method on the class name itself instead of on an instance name.
+- Non-static classes can include static members. This is useful when some behaviors and characteristics relate to the instance (instance members), while some behaviors and characteristics relate to the type itself (static members). Methods, fields, properties, and events can all be declared static. Static properties are often used to return data that is common to all instances, or to keep track of how many instances of a class have been created. Static methods are often used to provide utilities that relate to the type in some way, such as comparison functions.
+- Regardless of how many instances of your class exist, there is only ever one instance of a static member. You do not need to instantiate the class in order to use static members. You access static members through the class name rather than the instance name.
+
+- An anonymous class is a class that does not have a name. Anonymous classes offer the programmer a convenient way of encapsulating read-only properties into a single object without the need to explicitly define a type first. The type name will be generated by the compiler. The type name is also not available at the source code level and the type of each property included in this anonymous class will be inferred by the compiler.
+- The C# compiler will look at the names, types, number, and the order of the fields in the object in order to determine whether two instances of an anonymous class have the same type or not.
+- Note: There are quite a few restrictions on the contents of an anonymous class:
+	- anonymous classes can contain only public fields
+	- the fields must all be initialized
+	- fields cannot be static
+	- you cannot define any methods for them
+
+- You can use inheritance as an aspect of code reuse by defining different classes that will contain common features and have a relationship to one another.
+- The class that inherits from the base class is referred to as the derived class but also commonly referred to as a subclass. When using the term subclass, some also refer to the base class as a super class.
+- The C# programming language does not support multiple inheritance directly. Multiple inheritance is a concept whereby multiple base classes can be inherited by a single subclass. In C#, a derived class can only have one base class.
+- To inherit from base class in C#, you append your derived class name with a colon and the name of the base class.
+
+- Abstract classes cannot be instantiated. When you create an abstract class you may partially implement some of the behavior in the class, or not implement the behavior at all. An abstract class requires the subclass to implement some, or all, of the functionality.
+- Prepend the keyword "abstract" to the class to make a class abstract.
+- Any method you declare in the abstract class that will contain some implementation in the abstract class, but can be overridden in the sub class, you decorate with the virtual keyword. This means that you can write implementation code in the abstract class and sub classes are free to override the implementation , or accept the implementation that is inherited.
+- There are specific constraints around an abstract method:
+	- An abstract method cannot exist in non-abstract class
+	- An abstract method is not permitted to have any implementation, including curly braces
+	- An abstract method signature must end in a semi-colon
+	- An abstract method MUST be implemented in any sub class. Failure to do so will generate a compiler warning in C#.
+- You can use the sealed keyword on your class restrict the inheritance feature of object oriented programming. If a class is derived from a sealed class then the compiler throws an error.
+- It is important to note that while structs are like classes in some aspects, structs are sealed. Therefore you cannot derive a class from a struct.
+
+- An interface is a little bit like a class without an implementation. It specifies a set of characteristics and behaviors by defining signatures for methods, properties, events, and indexers, without specifying how any of these members are implemented. When a class implements an interface, the class provides an implementation for each member of the interface. By implementing the interface, the class is thereby guaranteeing that it will provide the functionality specified by the interface.
+- Note the important distinction when using an Interface. A class "implements" an interface as opposed to "inheriting" a base class.
+- You can think of an interface as a contract. You use the "interface" keyword to declare an interface.
+- You can use the following access modifiers in your interface declarations:
+	Access modifier	Description
+	public			The interface is available to code running in any assembly.
+	internal		The interface is available to any code within the same assembly, but not available to code in another assembly. This is the default value if you do 				not specify an access modifier.
+- To define an event, you use the event keyword, followed by the event handler delegate, followed by the name of the event:
+	event EventHandler OnSoldOut;
+- To define an indexer, you specify the return type and the accessors:
+	string this[int index] { get; set; }
+- Interface members do not include access modifiers. The purpose of the interface is to define the members that an implementing class should expose to consumers, so that all interface members are public. Interfaces cannot include members that relate to the internal functionality of a class, such as fields, constants, operators, and constructors.
+- One of the key advantages of interfaces is that they enable you to modularize your code. You can change the way in which your class implements the interface at any point, without having to update any consumer classes that rely on an interface implementation.
+- When you create a class that implements an interface, you can choose whether to implement the interface implicitly or explicitly. To implement an interface implicitly, you implement each interface member with a signature that matches the member definition in the interface. To implement an interface explicitly, you fully qualify each member name so that it is clear that the member belongs to a particular interface.
+- The only scenario in which you must use explicit interface implementation is if you are implementing two interfaces that share a member name. For example, if you implement interfaces named IBeverage and IInventoryItem, and both interfaces declare a Boolean property named IsAvailable, you would need to implement at least one of the IsAvailable members explicitly. In this scenario, the compiler would be unable to resolve the IsAvailable reference without an explicit implementation.
+- Polymorphism states that you can represent an instance of a class as an instance of any interface that the class implements. Interface polymorphism can help to increase the flexibility and modularity of your code.
+- In many cases, you will want to create classes that implement more than one interface. For example, you might want to:
+	- Implement the IDisposable interface to enable the .NET runtime to dispose of your class correctly.
+	- Implement the IComparable interface to enable collection classes to sort instances of your class.
+	- Implement your own custom interface to define the functionality of your class.
+- To implement multiple interfaces, you add a comma-separated list of the interfaces that you want to implement to your class declaration. Your class must implement every member of every interface you add to your class declaration.
+- Don't put override keyword when implementing interface methods.
+
+
+- The life cycle of an object has several stages, which start at creation of the object and end in its destruction. To create an object in your application, you use the new keyword. When the common language runtime (CLR) executes code to create a new object, it performs the following steps:
+	- It allocates a block of memory large enough to hold the object.
+	- It initializes the block of memory to the new object.
+- When you use unmanaged objects, you may need to write code to allocate memory for the unmanaged objects that you create. Unmanaged objects are those that are not .NET components such as a Microsoft Word object, a database connection, or a file resource.
+-When you have finished with an object, you can dispose of it to release any resources, such as database connections and file handles, that it consumed. When you dispose of an object, the CLR uses a feature called the garbage collector (GC) to perform the following steps:
+	- The GC releases resources.
+	- The memory that is allocated to the object is reclaimed.
+- The GC runs automatically in a separate thread. When the GC runs, other threads in the application are halted, because the GC may move objects in memory and therefore must update the memory pointers.
+
+- The garbage collector is a separate process that runs in its own thread whenever a managed code application is running. The garbage collection process provides the following benefits:
+	- Enables you to develop your application without having to worry about freeing memory.
+	- Allocates objects on the managed heap efficiently.
+	- Reclaims objects that are no longer being used, clears their memory, and keeps the memory available for future allocations. Managed objects automatically get clean 	content to start with, so their constructors do not have to initialize every data field.
+	- Provides memory safety by making sure that an object cannot use the content of another object.
+- When a .NET application is executed, the garbage collector is initialized by the CLR. The GC allocates a segment of memory that it will use to store and manage the objects for each .NET application that is running. This memory area is referred to as the managed heap, which differs from a native heap used in the context of the operating system.
+- There is a managed heap for each managed process that is running and all threads in the process allocate memory for objects, in that process, on the same heap. This means that each process has its own virtual memory space.
+- To reserve memory, the garbage collector calls the Win32 VirtualAlloc function, and reserves one segment of memory at a time for managed applications. The garbage collector also reserves segments as needed, and releases segments back to the operating system (after clearing them of any objects) by calling the Win32 VirtualFree function.
+- Note: The size of segments allocated by the garbage collector is implementation-specific and is subject to change at any time, including in periodic updates. When writing your app, you should never make assumptions about, or depend on a particular segment size that will be used by the GC.
+- When a garbage collection is triggered, the process will reclaim memory that is occupied by dead objects, objects no longer referenced in the application code. Reclaiming also compacts live objects so that they are moved together, dead space is removed, which reduces the size of the heap.
+- The GC does exact a performance hit on the applications because garbage collection is the result of the number of allocations and the amount of memory usage and release on the managed heap.
+- Garbage collection occurs when one of the following conditions is true:
+	- The system is running low on physical memory.
+	- The memory that is used by currently allocated objects surpasses an acceptable threshold. This threshold will be continuously adjusted as the process is running.
+	- The GC.Collect method is called. While you can call this method yourself, typically you do not have to call this method, because the garbage collector runs continuously. Even if you do call this method, there is no guarantee that it will run precisely when you call it.
+
+- The dispose pattern is a design pattern that frees resources that an object has used. The .NET Framework provides the IDisposable interface in the System namespace to enable you to implement the dispose pattern in your applications.
+- The IDisposable interface defines a single parameterless method named Dispose. You should use the Dispose method to release all of the unmanaged resources that your object consumed. If the object is part of an inheritance hierarchy, the Dispose method can also release resources that the base types consumed by calling the Dispose method on the parent type.
+- Invoking the Dispose method does not destroy an object. The object remains in memory until the final reference to the object is removed and the GC reclaims any remaining resources.
+- Many of the classes in the .NET Framework that wrap unmanaged resources, such as the StreamWriter class, implement the IDisposable interface. The StreamWriter class implements a TextWriter object for the purpose of writing text information to a stream. The stream could be a file, memory, or network stream. You should also implement the IDisposable interface when you create your own classes that reference unmanaged types.
+
+- Implementing the IDisplosable interface:
+	- Ensure that the System namespace is in scope by adding the following using statement to the top of the code file.
+	- Implement the IDisposable interface in your class definition.
+		public class ManagedWord : IDisposable
+	    {
+	       public void Dispose()
+	       {
+	          throw new NotImplementedException();
+	       }
+	    }
+	- Add a private field to the class, which you can use to track the disposal status of the object, and check whether the Dispose method has already been invoked and the resources released.
+		public class ManagedWord : IDisposable
+	    {
+	       bool _isDisposed;
+	       ...
+	    }
+	- Add code to any public methods in your class to check whether the object has already been disposed of. If the object has been disposed of, you should throw an ObjectDisposedException.
+		public void OpenWordDocument(string filePath)
+	    {
+	       if (this._isDisposed)
+	          throw new ObjectDisposedException("ManagedWord");
+	           ...
+	    }
+	- Add an overloaded implementation of the Dispose method that accepts a Boolean parameter. The overloaded Dispose method should dispose of both managed and unmanaged resources if it was called directly, in which case you pass a Boolean parameter with the value true. If you pass a Boolean parameter with the value of false, the Dispose method should only attempt to release unmanaged resources. You may want to do this if the object has already been disposed of or is about to be disposed of by the GC.
+		public class ManagedWord : IDisposable
+	    {
+	       ...
+	        protected virtual void Dispose(bool isDisposing)
+	        {
+	            if (this._isDisposed)
+	                return;
+	            if (isDisposing)
+	            {
+	               // Release only managed resources.
+	               ...
+	            }
+	            // Always release unmanaged resources.
+	            ...
+	            // Indicate that the object has been disposed.
+	            this._isDisposed = true;
+	        }
+	    }
+	- Add code to the parameterless Dispose method to invoke the overloaded Dispose method and then call the GC.SuppressFinalize method. The GC.SuppressFinalize method instructs the GC that the resources that the object referenced have already been released and the GC does not need to waste time running the finalization code.
+		public void Dispose()
+	    {
+	       Dispose(true);
+	       GC.SuppressFinalize(this);
+	    }
+	- After you have implemented the IDisposable interface in your class definitions, you can then invoke the Dispose method on your object to release any resources that the object has consumed. You can invoke the Dispose method from a destructor that is defined in the class.
+- You can add a destructor to a class to perform any additional application-specific cleanup that is necessary when your class is garbage collected. To define a destructor, you add a tilde (~) followed by the name of the class. You then enclose the destructor logic in braces.
+- When you declare a destructor, the compiler automatically converts it to an override of the Finalize method of the object class. However, you cannot explicitly override the Finalize method; you must declare a destructor and let the compiler perform the conversion.
+- If you want to guarantee that the Dispose method is always invoked, you can include it as part of the finalization process that the GC performs. To do this, you can add a call to the Dispose method in the destructor of the class.
+	// Calling the Dispose Method from a Destructor
+	class ManagedWord
+	{
+	    ...
+	    // Destructor
+	    ~ManagedWord()
+	    {
+	        Dispose(false);
+	    }
+	}
+- Using types that implement the IDisposable interface is not sufficient to manage resources. You must also remember to invoke the Dispose method in your code when you have finished with the object. If you choose not to implement a destructor that invokes the Dispose method when the GC processes the object, you can do this in a number of other ways.
+	- One approach is to explicitly invoke the Dispose method after any other code that uses the object. The following code example shows how you can invoke the Dispose method on an object that implements the IDisposable interface.
+		// Invoking the Dispose Method
+		var word = new ManagedWord();
+		 // Code to use the ManagedWord object.
+		word.Dispose();
+	- Invoking the Dispose method explicitly after code that uses the object is perfectly acceptable, but if your code throws an exception before the call to the Dispose method, the Dispose method will never be invoked. A more reliable approach is to invoke the Dispose method in the finally block of a try/catch/finally or a try/finally statement. Any code in the scope of the finally block will always execute, regardless of any exceptions that might be thrown. Therefore, with this approach, you can always guarantee that your code will invoke the Dispose method.
+		// Invoking the Dispose Method in a finally Block
+		var word = default(ManagedWord);
+		try
+		{
+		   word = new ManagedWord();
+		   // Code to use the ManagedWord object.
+		}
+		catch
+		{
+		    // Code to handle any errors.
+		}
+		finally
+		{
+		   if(word!=null)
+		      word.Dispose();
+		}
+	- Note: When explicitly invoking the Dispose method, it is good practice to check whether the object is not null beforehand, because you cannot guarantee the state of the object.
+	- Alternatively, you can use a using statement to implicitly invoke the Dispose method. A using block is exception safe, which means that if the code in the block throws an exception, the runtime will still dispose of the objects that are specified in the using statement. The following code example shows how to implicitly dispose of your object by using a using statement.
+		// Disposing Of an Object by Using a using Statement
+		using (var word = default(ManagedWord))
+		{
+		   // Code to use the ManagedWord object.
+		}
+	- If your object does not implement the IDisposable interface, a try/finally block is an exception-safe approach to execute code to release resources. You should aim to use a try/finally block when it is not possible to use a using statement.
